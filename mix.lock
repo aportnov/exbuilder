@@ -1,0 +1,4 @@
+%{"bunt": {:hex, :bunt, "0.1.6", "5d95a6882f73f3b9969fdfd1953798046664e6f77ec4e486e6fafc7caad97c6f", [:mix], []},
+  "credo": {:hex, :credo, "0.5.3", "0c405b36e7651245a8ed63c09e2d52c2e2b89b6d02b1570c4d611e0fcbecf4a2", [:mix], [{:bunt, "~> 0.1.6", [hex: :bunt, optional: false]}]},
+  "dialyxir": {:hex, :dialyxir, "0.4.1", "236056d6acd25f740f336756c0f3b5dd6e2f0156074bc15f3b779aeee15390c8", [:mix], []},
+  "poison": {:hex, :poison, "3.0.0", "625ebd64d33ae2e65201c2c14d6c85c27cc8b68f2d0dd37828fde9c6920dd131", [:mix], []}}
