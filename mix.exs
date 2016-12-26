@@ -7,6 +7,8 @@ defmodule Exbuilder.Mixfile do
      elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     description: "Macros to support Ruby-like jbuilder templates to generate JSON",
+     package: package(),
      deps: deps()]
   end
 
@@ -16,6 +18,14 @@ defmodule Exbuilder.Mixfile do
   def application do
     [applications: [:logger]]
   end
+
+  def package do
+  	[
+		maintainers: ["Alexander Portnov"],
+		licenses: ["MIT"],
+		links: %{"GitHub" => "https://github.com/aportnov/exbuilder.git"}
+	]
+  end	
 
   # Dependencies can be Hex packages:
   #
