@@ -2,6 +2,8 @@ defmodule ExbuilderTest do
   	use ExUnit.Case
 
 	use ExBuilder.Template
+	
+	doctest ExBuilder.Template
 
 	describe "Single Object Builder" do
 

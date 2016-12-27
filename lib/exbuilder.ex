@@ -1,6 +1,10 @@
 require Template.Location
 
 defmodule ExBuilder.Template do
+	@moduledoc """
+		DSL for building complex Map structures. This is very Ruby builder-like templating.
+	"""
+	
 	use Template.Location
 	
 	templates "web/templates", "builder"
@@ -41,6 +45,15 @@ defmodule ExBuilder.Template do
 
 	# DSL Implementation
 
+	@doc ~S"""
+		Document entry point. This macro is used as a wrapper for a document generation.
+		
+		##Example:
+			iex> document do
+			iex>   property(:name, "Alex")
+			iex> end
+			%{name: "Alex"}
+	"""
 	defmacro document(do: block) do
 		quote do
 			var!(scope) = %{}
@@ -49,12 +62,41 @@ defmodule ExBuilder.Template do
 		end
 	end
 
+	@doc ~S"""
+		Provides access to the variables inside 'assigns' variable in the caller's scope
+		
+		##Example:
+			iex> var!(assigns) = [name: "Alex"]
+			iex> document do
+			iex>   name = assign(:name)	
+			iex>   property(:name, name)
+			iex> end
+			%{name: "Alex"}
+	"""
 	defmacro assign(name) do
 		quote do
 			Keyword.get var!(assigns), unquote(name)
 		end
 	end
 
+	@doc ~S"""
+		Provides access to the variables inside 'assigns' variable in the caller's scope
+		
+		##Example:
+			iex> document do
+			iex>	object(:sample, %{name: "Joe"})
+			iex> end
+			%{sample: %{name: "Joe"}}
+			
+			iex> document do 
+			iex>	object(:sample, %{name: "Joe"}) do
+			iex>		object(:children) do
+			iex>			object(:child, %{name: "Phil"})
+			iex>		end
+			iex>	end
+			iex> end
+			%{sample: %{name: "Joe", children: %{child: %{name: "Phil"}}}}
+	"""
 	defmacro object(name, do: block) do
 		quote do: object(unquote(name), %{}, do: unquote(block))
 	end
@@ -72,12 +114,34 @@ defmodule ExBuilder.Template do
 		end
 	end
 	
+	@doc ~S"""
+		Add a property to the object context
+		
+		##Example:
+			iex> document do
+			iex>   property(:name, "Joe")
+			iex> end
+			%{name: "Joe"}
+	"""
 	defmacro property(name, value) do
 		quote do
 			var!(scope) = Map.merge(var!(scope), %{unquote(name) => unquote(value)})
 		end
 	end
 
+	@doc ~S"""
+		Add an array property to the object context by iterating on list param. 
+		Each item in the given list param is available inside array block as an 'item' variable
+		
+		##Example:
+			iex> document do
+			iex>	object(:work, %{name: "Development"})
+			iex>	array(:names, ["Joe", "Phil"]) do
+			iex>		%{name: item}
+			iex>	end
+			iex> end
+			%{work: %{name: "Development"}, names: [%{name: "Joe"}, %{name: "Phil"}] }
+	"""
 	defmacro array(name, list, do: block) do
 		quote do
 			values = Enum.map(unquote(list), fn(var!(item)) -> unquote(block) end)
@@ -87,6 +151,12 @@ defmodule ExBuilder.Template do
 end
 
 defmodule ExBuilder.View do
+	@moduledoc """
+		This module should be included into application. 
+		All templates are compiled into this module, with names based on a file location
+		Example: healthcheck/status.builder => healthcheck_status
+	"""
+	
 	use ExBuilder.Template
 	
 	def render_json(path, assigns) do

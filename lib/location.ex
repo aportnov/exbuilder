@@ -1,4 +1,9 @@
+
 defmodule Template.Location do
+	@moduledoc """
+		This module provides a convinience macro to generate support for template compilation
+	"""
+	
 	defmacro templates(root, ext) do
 		quote do
 			@templates unquote(root)
