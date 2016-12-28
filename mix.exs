@@ -8,6 +8,8 @@ defmodule Exbuilder.Mixfile do
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      description: "Macros to support Ruby-like jbuilder templates to generate JSON",
+     name: "ExBuilder",
+     source_url: "https://github.com/aportnov/exbuilder.git",
      package: package(),
      deps: deps()]
   end
@@ -40,7 +42,8 @@ defmodule Exbuilder.Mixfile do
     [
 		{:poison, "~> 3.0"},
 		{:credo, "~> 0.5", only: [:dev, :test]},
-		{:dialyxir, "~> 0.4", only: [:dev]}
+		{:dialyxir, "~> 0.4", only: [:dev]},
+		{:ex_doc, "~> 0.14", only: :dev}
 	]
   end
 end
