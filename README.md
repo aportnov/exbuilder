@@ -31,14 +31,15 @@ iex> end
 
 ##### Using `ExBuilder.Template` with simple Plug application
 
-1. Place following code into template file in web/templates/sample.builder
+1. Place following code into template file in web/templates/sample.builder.
+   Note that Eex style variables @var_name can be used inside templates in the same way assign(name) is used
 
 ```elixir
 	names = assign(:children)
 
 	object(:person) do
-	    property :name, assign(:name) 
-	    object(:company, assign(:company))
+	    property :name, @name 
+	    object(:company, @company)
 	    array(:children, names) do
 	    	%{name: item}
 	    end

@@ -33,15 +33,19 @@ defmodule ExBuilder.Template do
 		quote do
 			@file unquote(path)
 			@external_resource unquote(path)
-			def unquote(name)(var!(assigns)) do
+			def unquote(name)(var!(assigns)) when is_list(var!(assigns)) do
 				_ = var!(assigns) 
 				document do
 					unquote(Code.string_to_quoted(body))
 				end
 			end
 		end
-
 	end
+	
+	defp postwalk({:@, [line: line], [{name, [line: line], nil}]}) do
+		quote do: assign(unquote(name))
+	end
+	defp postwalk(ast), do: ast
 
 	# DSL Implementation
 
@@ -55,9 +59,10 @@ defmodule ExBuilder.Template do
 			%{name: "Alex"}
 	"""
 	defmacro document(do: block) do
+
 		quote do
 			var!(scope) = %{}
-			unquote(block)
+			unquote(Macro.postwalk(block, &postwalk/1))
 			var!(scope)
 		end
 	end
@@ -66,12 +71,22 @@ defmodule ExBuilder.Template do
 		Provides access to the variables inside 'assigns' variable in the caller's scope
 		
 		##Example:
+		
 			iex> var!(assigns) = [name: "Alex"]
 			iex> document do
 			iex>   name = assign(:name)	
 			iex>   property(:name, name)
 			iex> end
 			%{name: "Alex"}
+		
+		To simplify access to the variables, Eex stype @var_name is supported to:
+		
+			iex> var!(assigns) = [name: "Alex"]
+			iex> document do
+			iex>   property(:name, @name)
+			iex> end
+			%{name: "Alex"}
+			
 	"""
 	defmacro assign(name) do
 		quote do
@@ -159,10 +174,14 @@ defmodule ExBuilder.View do
 	
 	use ExBuilder.Template
 	
-	def render_json(path, assigns) do
+	def apply_template(path, assigns) do
 		name = view_name(path)
-		{:ok, json} = apply(__MODULE__, name, [assigns]) |> Poison.encode
-		
+		apply(__MODULE__, name, [assigns])
+	end
+	
+	def render_json(path, assigns) do
+		{:ok, json} = apply_template(path, assigns) |> Poison.encode
+
 		json
 	end
 	
