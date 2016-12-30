@@ -32,7 +32,7 @@ iex> end
 ##### Using `ExBuilder.Template` with simple Plug application
 
 1. Place following code into template file in web/templates/sample.builder.
-   Note that Eex style variables @var_name can be used inside templates in the same way assign(name) is used
+   Note that Eex style variables @var_name can be used inside templates in the same way `assign(var_name)` is used
 
 ```elixir
 	names = assign(:children)
