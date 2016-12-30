@@ -33,6 +33,7 @@ defmodule ExBuilder.Template do
 		quote do
 			@file unquote(path)
 			@external_resource unquote(path)
+			@doc false
 			def unquote(name)(var!(assigns)) when is_list(var!(assigns)) do
 				_ = var!(assigns) 
 				document do
