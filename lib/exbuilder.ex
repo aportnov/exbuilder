@@ -157,7 +157,28 @@ defmodule ExBuilder.Template do
 			iex>	end
 			iex> end
 			%{work: %{name: "Development"}, names: [%{name: "Joe"}, %{name: "Phil"}] }
+
+			iex> document do
+			iex>	object(:work, %{name: "Development"})
+			iex>	array(:names, nil) do
+			iex>		%{name: item}
+			iex>	end
+			iex> end
+			%{work: %{name: "Development"}, names: []}
+
+			iex> document do
+			iex>	object(:work, %{name: "Development"})
+			iex>	array(:names, []) do
+			iex>		%{name: item}
+			iex>	end
+			iex> end
+			%{work: %{name: "Development"}, names: []}
+
 	"""
+	defmacro array(name, nil, do: block) do
+		quote do: array(unquote(name), [], do: unquote(block))
+	end
+	
 	defmacro array(name, list, do: block) do
 		quote do
 			values = Enum.map(unquote(list), fn(var!(item)) -> unquote(block) end)
