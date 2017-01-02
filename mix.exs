@@ -3,7 +3,7 @@ defmodule Exbuilder.Mixfile do
 
   def project do
     [app: :exbuilder,
-     version: "0.1.2",
+     version: "0.1.3",
      elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
@@ -18,7 +18,7 @@ defmodule Exbuilder.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger]]
+    [applications: [:logger, :xmerl]]
   end
 
   def package do
@@ -41,6 +41,7 @@ defmodule Exbuilder.Mixfile do
   defp deps do
     [
 		{:poison, "~> 3.0"},
+		{:inflex, "~> 1.7"},
 		{:credo, "~> 0.5", only: [:dev, :test]},
 		{:dialyxir, "~> 0.4", only: [:dev]},
 		{:ex_doc, "~> 0.14", only: :dev}

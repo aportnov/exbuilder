@@ -196,6 +196,8 @@ defmodule ExBuilder.View do
 	
 	use ExBuilder.Template
 	
+	alias ExBuilder.XML.Encoder
+	
 	def apply_template(path, assigns) do
 		name = view_name(path)
 		apply(__MODULE__, name, [assigns])
@@ -205,6 +207,14 @@ defmodule ExBuilder.View do
 		{:ok, json} = apply_template(path, assigns) |> Poison.encode
 
 		json
+	end
+
+	def render_xml(path, assigns, root_element) do
+			apply_template(path, assigns) |> Encoder.encode(root_element)
+	end
+	
+	def render_xml(path, assigns) do
+			apply_template(path, assigns) |> Encoder.encode
 	end
 	
 	defmacro __using__(_options) do

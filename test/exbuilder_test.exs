@@ -1,5 +1,5 @@
-defmodule ExbuilderTest do
-  	use ExUnit.Case
+defmodule ExBuilderTest do
+  	use ExUnit.Case, async: true
 
 	use ExBuilder.Template
 	
