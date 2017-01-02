@@ -56,7 +56,7 @@ iex> end
 		plug :match
 		plug :dispatch
 
-		use ExBuilder.Template
+		use ExBuilder.View
 		
 		get "/info" do
 		
