@@ -3,7 +3,7 @@ defmodule Template.Location do
 	@moduledoc """
 		This module provides a convinience macro to generate support for template compilation
 	"""
-	
+	@doc false
 	defmacro templates(dir, ext) do
 		root = full_path(dir)
 
