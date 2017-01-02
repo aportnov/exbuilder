@@ -1,7 +1,7 @@
 # ExBuilder
 
 Simple library to support Ruby style jbuilder-like JSON templates. 
-Templates should be placed into web/templates directory and have builder extension. 
+Templates should be placed into web/templates directory in the root of the project and have builder extension. 
 All templates will be compiled into functions and available via `ExBuilder.Template` module. 
 Parameters, passed to the generated function as a keyword list, are available inside template via assign/1 macro.
 
@@ -76,6 +76,6 @@ From [Hex](https://hex.pm/packages/exbuilder), the package can be installed as:
 
     ```elixir
     def deps do
-      [{:exbuilder, "~> 0.1.0"}]
+      [{:exbuilder, "~> 0.1"}]
     end
     ```
