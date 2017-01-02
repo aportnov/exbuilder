@@ -73,11 +73,16 @@ iex> end
 
 		use ExBuilder.View
 		
-		get "/info" do
+		get "/info.json" do
 		
 			send_resp(conn, 200, render_json("sample", name: "John Smith", children: ["Jeff"], company: %{name: "Company Name"}))
 		end
 	
+		get "/info.xml" do
+		
+			send_resp(conn, 200, render_xml("sample", name: "John Smith", children: ["Jeff"], company: %{name: "Company Name"}))
+		end
+		
 	end
 	
 ```
