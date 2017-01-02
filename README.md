@@ -61,7 +61,7 @@ iex> end
 	end
 ```
 
-2. Add use statement for `ExBuilder.Template`
+2. Add use statement for `ExBuilder.View`
 
 ```elixir
 	
