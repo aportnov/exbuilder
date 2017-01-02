@@ -4,7 +4,7 @@ defmodule ExBuilder.XML.Element do
 	"""
 
 	@doc ~S"""
-		Convert named Map into `xmerl` tuple
+		Convert Map into `xmerl` tuple
 		
 		##Example:
 			iex> ExBuilder.XML.Element.element(:sample, %{name: "Name"})  
@@ -12,7 +12,15 @@ defmodule ExBuilder.XML.Element do
 			
 			iex> ExBuilder.XML.Element.element(:sample, %{name: "Name", children: [%{name: "Child"}]})
 			{:sample, [name: "Name"], [{:children, [], [{:child, [name: "Child"], []}]}]}
+			
+			iex> ExBuilder.XML.Element.element(:children, [%{name: "Child"}]) 
+			{:children, [], [{:child, [name: "Child"], []}]}
+			
+			iex> ExBuilder.XML.Element.element(:children, []) 
+			{:children, [], []}
 	"""
+	def element(name, values)
+	
 	def element(name, %{} = values) do
 		fun = fn({_k, %{}}) -> true
 						({_k, [] }) -> true
@@ -27,16 +35,6 @@ defmodule ExBuilder.XML.Element do
 		{node_name(name), attributes, children}
 	end
 	
-	@doc ~S"""
-		Convert named List into `xmerl` tuple
-		
-		##Example:
-			iex> ExBuilder.XML.Element.element(:children, [%{name: "Child"}]) 
-			{:children, [], [{:child, [name: "Child"], []}]}
-			
-			iex> ExBuilder.XML.Element.element(:children, []) 
-			{:children, [], []}
-	"""
 	def element(name, values) when is_list(values) do
 		wrapper_name = node_name(name)
 		element_name = Inflex.singularize(wrapper_name)
