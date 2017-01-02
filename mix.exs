@@ -7,7 +7,7 @@ defmodule Exbuilder.Mixfile do
      elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     description: "Macros to support Ruby-like jbuilder templates to generate JSON",
+     description: "Macros to support Ruby-like jbuilder/builder templates to generate JSON and XML",
      name: "ExBuilder",
      source_url: "https://github.com/aportnov/exbuilder.git",
      package: package(),

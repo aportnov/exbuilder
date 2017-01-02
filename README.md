@@ -1,6 +1,6 @@
 # ExBuilder
 
-Simple library to support Ruby style jbuilder-like JSON templates. 
+Simple library to support Ruby style builder-like JSON and XML templates. 
 Templates should be placed into web/templates directory in the root of the project and have builder extension. 
 All templates will be compiled into functions and available via `ExBuilder.View` module. 
 
