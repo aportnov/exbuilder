@@ -2,8 +2,23 @@
 
 Simple library to support Ruby style jbuilder-like JSON templates. 
 Templates should be placed into web/templates directory in the root of the project and have builder extension. 
-All templates will be compiled into functions and available via `ExBuilder.Template` module. 
-Parameters, passed to the generated function as a keyword list, are available inside template via assign/1 macro.
+All templates will be compiled into functions and available via `ExBuilder.View` module. 
+
+##### Passing Parameters
+
+Parameters, passed to the generated function as a keyword list, are available inside template via assign/1 macro. 
+For convenience, Eex style variables notation: @var_name, is supported and can be used inside templates in the same way `assign(var_name)` is used.
+
+Following code samples produce identical outcome:
+
+```elixir
+iex>   name = assign(:name)	
+iex>   property(:name, name)
+``` 
+
+```elixir
+iex>   property(:name, @name)
+``` 
 
 ##### Sample test cases:
 
@@ -29,10 +44,10 @@ iex> end
 %{sample: %{name: "Joe", children: %{child: %{name: "Phil"}}}}
 ```
 
-##### Using `ExBuilder.Template` with simple Plug application
+##### Using `ExBuilder.View` with simple Plug application
 
 1. Place following code into template file in web/templates/sample.builder.
-   Note that Eex style variables @var_name can be used inside templates in the same way `assign(var_name)` is used
+   Note that Eex style variables @var_name is used inside templates in the same way `assign(var_name)` is used
 
 ```elixir
 	names = assign(:children)
