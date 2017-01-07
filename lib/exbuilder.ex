@@ -17,7 +17,7 @@ defmodule ExBuilder.Template do
 	end
 	
 	defmacro __before_compile__(_env) do
-		templates = find_templates
+		templates = find_templates()
 		
 		ast = templates |> Enum.map(fn(path) -> compile(path) end)
 		
