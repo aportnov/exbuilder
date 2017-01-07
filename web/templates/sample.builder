@@ -1,7 +1,10 @@
 object(:person) do
     property :name, @name 
     object(:work, %{name: "Development"}) do
-        object(:position, %{name: "Developer"})
+        object(:position, %{name: "Developer"}) do
+            text(:travel, "some")
+            property(:weekend, false)
+        end
     end
     array(:friends, @names) do
     	%{name: item}

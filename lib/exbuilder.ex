@@ -144,6 +144,10 @@ defmodule ExBuilder.Template do
 			var!(scope) = Map.merge(var!(scope), %{unquote(name) => unquote(value)})
 		end
 	end
+	
+	defmacro text(name, value) do
+		quote do: property(unquote(name), {:text, unquote(value)})
+	end
 
 	@doc ~S"""
 		Add an array property to the object context by iterating on list param. 

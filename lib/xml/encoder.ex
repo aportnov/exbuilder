@@ -22,10 +22,12 @@ defmodule ExBuilder.XML.Element do
 	def element(name, values)
 	
 	def element(name, %{} = values) do
-		fun = fn({_k, %{}}) -> true
-						({_k, [] }) -> true
-						({_k, [%{}| _]}) -> true
-						({_k, _v}) -> false
+		fun = fn
+			({_k, %{}})         -> true
+			({_k, []})          -> true
+			({_k, [%{}| _]})    -> true
+			({_k, {:text, _}})  -> true
+			({_k, _v})          -> false
 		end
 		
 		{nodes, attributes} = Enum.partition(values, fun)
@@ -42,6 +44,10 @@ defmodule ExBuilder.XML.Element do
 		{wrapper_name, [], Enum.map(values, fn(%{} = item) -> element(element_name, item) end)}
 	end
 	
+	def element(name, {:text, value}) do
+		{node_name(name), [String.to_charlist("#{value}")]}
+	end
+
 	defp node_name(value) when is_atom(value), do: value
 	defp node_name(value) when is_binary(value), do: String.to_atom(value)
 
@@ -89,7 +95,7 @@ defmodule ExBuilder.XML.Encoder do
 	
 	defmacro __using__(_options) do
 		quote do
-			import unquote(__MODULE__)
+			import unquote(__MODULE__), only: [encode: 1, encode: 2]
 		end
 	end
 	
