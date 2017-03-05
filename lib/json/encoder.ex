@@ -1,5 +1,5 @@
 defimpl Poison.Encoder, for: Tuple do
-  alias Poison.Encoder
+	alias Poison.Encoder
 
 	def encode({:text, value}, options) do
 		Encoder.encode(value, options)
