@@ -16,10 +16,9 @@ defmodule Template.Location do
 	defp root_dir([h|t], acc), do: root_dir(t, [h | acc])
 
 	defmacro __using__(_options) do
-		dir = Application.get_env(:exbuilder, :templates, "web/templates")
-		ext = Application.get_env(:exbuilder, :extension, "builder")
-		
-		root = full_path(dir)
+		dir  = Application.get_env(:exbuilder, :templates, "web/templates")
+		ext  = Application.get_env(:exbuilder, :extension, "builder")
+ 		root = full_path(dir)
 		
 		quote do
 			@templates unquote(root)
