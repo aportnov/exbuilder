@@ -7,7 +7,7 @@ defmodule ExBuilder.Template do
 	
 	use Template.Location
 	
-	templates "web/templates", "builder"
+#	templates "web/templates", "builder"
 	
 	defmacro __using__(_options) do
 		quote do
