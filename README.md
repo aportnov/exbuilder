@@ -94,8 +94,8 @@ From [Hex](https://hex.pm/packages/exbuilder), the package can be installed as:
 
   1. Add `exbuilder` to your list of dependencies in `mix.exs`:
 
-    ```elixir
-    def deps do
-      [{:exbuilder, "~> 0.1"}]
-    end
-    ```
+```elixir
+def deps do
+  [{:exbuilder, "~> 0.1"}]
+end
+```
