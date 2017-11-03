@@ -183,7 +183,7 @@ defmodule ExBuilder.Template do
 	
 	defmacro array(name, list, do: block) do
 		quote do
-			values = Enum.map(unquote(list), fn(var!(item)) -> unquote(block) end)
+			values = Enum.map(unquote(list), fn(var!(item)) -> unquote(block) end) |> Enum.reject(fn(v)-> v == nil end)
 			property(unquote(name), values)
 		end
 	end
@@ -196,32 +196,30 @@ defmodule ExBuilder.View do
 		Example: healthcheck/status.builder => healthcheck_status
 	"""
 	
-	use ExBuilder.Template
-	
-	alias ExBuilder.XML.Encoder
-	
-	def apply_template(path, assigns) do
-		name = view_name(path)
-		apply(__MODULE__, name, [assigns])
-	end
-	
-	def render_json(path, assigns) do
-		{:ok, json} = apply_template(path, assigns) |> Poison.encode
-
-		json
-	end
-
-	def render_xml(path, assigns, root_element) do
-			apply_template(path, assigns) |> Encoder.encode(root_element)
-	end
-	
-	def render_xml(path, assigns) do
-			apply_template(path, assigns) |> Encoder.encode
-	end
-	
 	defmacro __using__(_options) do
 		quote do
-			import unquote(__MODULE__)
+    	use ExBuilder.Template
+	
+    	alias ExBuilder.XML.Encoder
+	
+    	def apply_template(path, assigns) do
+    		name = view_name(path)
+    		apply(__MODULE__, name, [assigns])
+    	end
+	
+    	def render_json(path, assigns) do
+    		{:ok, json} = apply_template(path, assigns) |> Poison.encode
+
+    		json
+    	end
+
+    	def render_xml(path, assigns, root_element) do
+    			apply_template(path, assigns) |> Encoder.encode(root_element)
+    	end
+	
+    	def render_xml(path, assigns) do
+    			apply_template(path, assigns) |> Encoder.encode
+    	end
 		end
 	end
 end
