@@ -25,6 +25,7 @@ defmodule Template.Location do
 			
 			def view_name(@templates <> path), do: view_name(path)
 			def view_name("/" <> path), do: view_name(path)
+      def view_name(path) when is_atom(path), do: view_name(Atom.to_string(path))
 			def view_name(path) do
 				path 
 				|> String.downcase 
