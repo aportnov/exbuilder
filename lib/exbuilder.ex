@@ -58,7 +58,6 @@ defmodule ExBuilder.Template do
 			%{name: "Alex"}
 	"""
 	defmacro document(do: block) do
-
 		quote do
 			var!(scope) = %{}
 			unquote(Macro.postwalk(block, &postwalk/1))
@@ -78,7 +77,7 @@ defmodule ExBuilder.Template do
 			iex> end
 			%{name: "Alex"}
 		
-		To simplify access to the variables, Eex stype @var_name is supported to:
+		To simplify access to the variables, Eex stype @var_name is supported too:
 		
 			iex> var!(assigns) = [name: "Alex"]
 			iex> document do
